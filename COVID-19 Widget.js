@@ -82,11 +82,18 @@ label = list.addText("+" + parseInt(data.features[0].attributes.value).toLocaleS
 // label = list.addText("+" + new Intl.NumberFormat('de-DE').format(data.features[0].attributes.value));
 label.font = Font.mediumSystemFont(20)
 
- const country = list.addText("Deutschland")
- country.font = Font.mediumSystemFont(12)
- country.textColor = Color.gray()
+// const country = list.addText("Deutschland")
+// country.font = Font.mediumSystemFont(12)
+// country.textColor = Color.gray()
 
-
+   // fetch new vaccines
+  const number = await getLatestNumber()
+  let amount =  number.split(" (")[0];
+  header = list.addText("💉 " + "Impfungen" + amount);
+  header.font = Font.mediumSystemFont(12);
+  header.textColor = Color.gray()
+      
+      
  list.addSpacer()
 
 
@@ -184,20 +191,12 @@ incidenceStack.addSpacer(8);
     
     list.addSpacer()
 
-
-  
-
  lastupdate = list.addText ("letztes Update: "+lastUpdate.substr(0,10))
  lastupdate.font = Font.mediumSystemFont(8)  
 
-      list.addSpacer()
       
-   // fetch new vaccines
-  const number = await getLatestNumber()
-  let amount =  number.split(" (")[0];
-  header = list.addText("💉 " + amount + "geimpfte");
-  header.font = Font.mediumSystemFont(10);
-  header.textColor = Color.gray()
+      
+
 
  return list
 }
