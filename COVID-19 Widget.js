@@ -89,7 +89,7 @@ label.font = Font.mediumSystemFont(20)
    // fetch new vaccines
   const number = await getLatestNumber()
   let amount =  number.split(" (")[0];
-  header = list.addText("💉 " + "Impfungen" + amount);
+  header = list.addText("💉 " + "Impfungen: " + amount);
   header.font = Font.mediumSystemFont(10);
   header.textColor = Color.gray()
       
