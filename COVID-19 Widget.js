@@ -65,18 +65,17 @@ async function createWidget(items) {
   
 
 
- // fetch new cases
- data = await new Request(newCasesApiUrl).loadJSON()
+// fetch new cases
+data = await new Request(newCasesApiUrl).loadJSON()
 
- if(!data || !data.features || !data.features.length) {
-   const errorList = new ListWidget()
-   errorList.addText("Keine Ergebnisse für die Anfrage nach den Neuinfektionen.")
-   return errorList
- }
+if(!data || !data.features || !data.features.length) {
+  const errorList = new ListWidget()
+  errorList.addText("Keine Ergebnisse für die Anfrage nach den Neuinfektionen.")
+  return errorList
+}
 
- header = list.addText("🦠 Neuinfektionen ".toUpperCase())
- header.font = Font.mediumSystemFont(10)
-
+header = list.addText("🦠 Neuinfektionen ".toUpperCase())
+header.font = Font.mediumSystemFont(10)
 
 label = list.addText("+" + parseInt(data.features[0].attributes.value).toLocaleString());
 // label = list.addText("+" + new Intl.NumberFormat('de-DE').format(data.features[0].attributes.value));
@@ -86,21 +85,21 @@ label.font = Font.mediumSystemFont(20)
 // country.font = Font.mediumSystemFont(12)
 // country.textColor = Color.gray()
 
-   // fetch new vaccines
-  const number = await getLatestNumber()
-  let amount =  number.split(" (")[0];
-  header = list.addText("💉 " + "Impfungen: " + amount);
-  header.font = Font.mediumSystemFont(10);
-  header.textColor = Color.gray()
+// fetch new vaccines
+const number = await getLatestNumber()
+let amount =  number.split(" (")[0];
+header = list.addText("💉 " + "Impfungen: " + amount);
+header.font = Font.mediumSystemFont(10);
+header.textColor = Color.gray()
       
       
- list.addSpacer()
+list.addSpacer()
 
 
- // fetch new incidents
- let location
+// fetch new incidents
+let location
 
- if(args.widgetParameter) {
+if(args.widgetParameter) {
 
    const fixedCoordinates = args.widgetParameter.split(",").map(parseFloat)
 
@@ -123,38 +122,34 @@ label.font = Font.mediumSystemFont(20)
  }
 
 
- data = await new Request(incidenceUrl(location)).loadJSON()
+data = await new Request(incidenceUrl(location)).loadJSON()
 
- if(!data || !data.features || !data.features.length) {
+if(!data || !data.features || !data.features.length) {
    const errorList = new ListWidget()
    errorList.addText("Keine Ergebnisse für den aktuellen Ort gefunden.")
    return errorList
- }
+}
 
- attr = data.features[0].attributes
- const incidence = attr.cases7_per_100k.toFixed(1)
- const cityName = attr.GEN
- const cases = attr.cases
- const lastUpdate = attr.last_update
- const bl = attr.BL
- const incidencebl = attr.cases7_bl_per_100k.toFixed(1)
- const areaName = this.stateToAbbr[attr.BL]
-
-
-
- header = list.addText("🦠 Inzidenz".toUpperCase())
- header.font = Font.mediumSystemFont(10)
+attr = data.features[0].attributes
+const incidence = attr.cases7_per_100k.toFixed(1)
+const cityName = attr.GEN
+const cases = attr.cases
+const lastUpdate = attr.last_update
+const bl = attr.BL
+const incidencebl = attr.cases7_bl_per_100k.toFixed(1)
+const areaName = this.stateToAbbr[attr.BL]
 
 
 
-
+header = list.addText("🦠 Inzidenz".toUpperCase())
+header.font = Font.mediumSystemFont(10)
 
 const incidenceStack = list.addStack();
-    incidenceStack.centerAlignContent();
+      incidenceStack.centerAlignContent();
 
-    const incicenceCityStack = incidenceStack.addStack();
-    value = incicenceCityStack.addText(parseFloat(incidence).toLocaleString());
-//     value = incicenceCityStack.addText(new Intl.NumberFormat('de-DE').format(incidence));
+const incicenceCityStack = incidenceStack.addStack();
+value = incicenceCityStack.addText(parseFloat(incidence).toLocaleString());
+//value = incicenceCityStack.addText(new Intl.NumberFormat('de-DE').format(incidence));
     value.font = Font.mediumSystemFont(24);
     if (incidence >= 50) {
       value.textColor = Color.red();
@@ -164,44 +159,35 @@ const incidenceStack = list.addStack();
       value.textColor = Color.yellow();
     }
 
-
-
-
 incidenceStack.addSpacer(8);
 
-    const incidenceBlStack = incidenceStack.addStack();
-    incidenceBlStack.layoutVertically();
-    incidenceBlStack.centerAlignContent();
-    incidenceBlStack.setPadding(2, 4, 2, 4);
-    incidenceBlStack.backgroundColor = new Color("#888888", 0.3);
-    incidenceBlStack.cornerRadius = 4;
+const incidenceBlStack = incidenceStack.addStack();
+      incidenceBlStack.layoutVertically();
+      incidenceBlStack.centerAlignContent();
+      incidenceBlStack.setPadding(2, 4, 2, 4);
+      incidenceBlStack.backgroundColor = new Color("#888888", 0.3);
+      incidenceBlStack.cornerRadius = 4;
 
-    const value_area = incidenceBlStack.addText(
-      parseFloat(incidencebl).toLocaleString()
-    );
-    value_area.font = Font.mediumSystemFont(8);
+const value_area = incidenceBlStack.addText(parseFloat(incidencebl).toLocaleString());
+      value_area.font = Font.mediumSystemFont(8);
 
-    const label_area = incidenceBlStack.addText(areaName);
-    label_area.font = Font.mediumSystemFont(8);
- 
+const label_area = incidenceBlStack.addText(areaName);
+      label_area.font = Font.mediumSystemFont(8);
 
-    const label_city = list.addText(cityName);
-    label_city.font = Font.mediumSystemFont(12);
-    label_city.textColor = Color.gray();
+const label_city = list.addText(cityName);
+      label_city.font = Font.mediumSystemFont(12);
+      label_city.textColor = Color.gray();
     
-    list.addSpacer()
+list.addSpacer()
 
- lastupdate = list.addText ("letztes Update: "+lastUpdate.substr(0,10))
- lastupdate.font = Font.mediumSystemFont(8)  
+lastupdate = list.addText ("letztes Update: "+lastUpdate.substr(0,10))
+lastupdate.font = Font.mediumSystemFont(8)  
 
-      
-      
-
-
- return list
+return list
 }
 
-// Get vaccine Status
+
+// Get vaccine Status - Impfstatus
 async function getLatestNumber() {
   let wbv = new WebView()
   await wbv.loadURL("https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Impfquoten-Tab.html")
