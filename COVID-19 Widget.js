@@ -1,9 +1,9 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
+
+
 // icon-color: red; icon-glyph: first-aid;
 // Licence: Robert Koch-Institut (RKI), dl-de/by-2-0
-
-
 // https://npgeo-corona-npgeo-de.hub.arcgis.com/datasets/917fc37a709542548cc3be077a786c17_0
 
 
