@@ -193,6 +193,38 @@ incidenceStack.addSpacer(8);
  lastupdate = list.addText ("letztes Update: "+lastUpdate.substr(0,10))
  lastupdate.font = Font.mediumSystemFont(8)  
 
+      list.addSpacer()
+      
+   // fetch new vaccines
+  const number = await getLatestNumber()
+  let amount =  number.split(" (")[0];
+  header = list.addText("💉 " + amount + "geimpfte");
+  header.font = Font.mediumSystemFont(10);
+  header.textColor = Color.gray()
 
  return list
+}
+
+// Get vaccine Status
+async function getLatestNumber() {
+  let wbv = new WebView()
+  await wbv.loadURL("https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Impfquoten-Tab.html")
+  // javasript to grab data from the website
+  let jscript = `
+  result = '';
+  const metas = document.getElementsByTagName('meta');
+  for (let i = 0; i < metas.length; i++)
+  {
+    if (metas[i].getAttribute('name') === 'description')
+    {
+      result = metas[i].getAttribute('content');
+    }
+  }
+  JSON.stringify(result)
+  `
+  // Run the javascript
+  let result = await wbv.evaluateJavaScript(jscript)
+  let substring = result.split("Gesamtzahl der Impfungen bis einschl. ")[1].split(": ")[1]
+  result = substring.replace("\"", "")
+  return result
 }
