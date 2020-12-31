@@ -225,7 +225,7 @@ async function getVaccineData() {
 }
 
 async function getVaccineUpdateDate() {
-  let data = await new Request(lastUpdateDate).loadJSON();
+  let data = await new Request(vaccineStatus).loadJSON();
   const attr = data.lastUpdate;
   return {
     value: attr,
