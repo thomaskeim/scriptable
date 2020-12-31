@@ -13,10 +13,14 @@
 // Licence: Robert Koch-Institut (RKI), dl-de/by-2-0
 // https://npgeo-corona-npgeo-de.hub.arcgis.com/datasets/917fc37a709542548cc3be077a786c17_0
 
+// Define URLs based on the corona.rki.de webpage
 
 const newCasesApiUrl = `https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/RKI_COVID19/FeatureServer/0/query?f=json&where=NeuerFall%20IN(1%2C%20-1)&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22AnzahlFall%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&resultType=standard&cacheHint=true`;
 
 const incidenceUrl = (location) => `https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/RKI_Landkreisdaten/FeatureServer/0/query?where=1%3D1&outFields=GEN,last_update,cases,cases7_per_100k,BL,cases7_bl_per_100k&geometry=${location.longitude.toFixed(3)}%2C${location.latitude.toFixed(3)}&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelWithin&returnGeometry=false&outSR=4326&f=json`
+
+const vaccineStatus = "https://rki-vaccination-data.vercel.app/api";
+
 
 this.stateToAbbr = {
       "Baden-Württemberg": "BW",
@@ -184,8 +188,12 @@ list.addSpacer(8)
 
 
 // fetch new vaccines
-const number = await getLatestNumber()
-let amount =  number.split(" (")[0];
+const number = await getVaccineData();
+console.log(number);
+
+let amount =  number.value.toLocaleString();
+console.log(amount);
+
 header = list.addText("💉 " + "Impfungen de ".toUpperCase());
 header.font = Font.mediumSystemFont(11);
 
@@ -204,25 +212,10 @@ return list
 
 
 // Get vaccine Status - Impfstatus
-async function getLatestNumber() {
-  let wbv = new WebView()
-  await wbv.loadURL("https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Impfquoten-Tab.html")
-  // javasript to grab data from the website
-  let jscript = `
-  result = '';
-  const metas = document.getElementsByTagName('meta');
-  for (let i = 0; i < metas.length; i++)
-  {
-    if (metas[i].getAttribute('name') === 'description')
-    {
-      result = metas[i].getAttribute('content');
-    }
-  }
-  JSON.stringify(result)
-  `
-  // Run the javascript
-  let result = await wbv.evaluateJavaScript(jscript)
-  let substring = result.split("Gesamtzahl der Impfungen bis einschl. ")[1].split(": ")[1]
-  result = substring.replace("\"", "")
-  return result
+async function getVaccineData() {
+  let data = await new Request(vaccineStatus).loadJSON();
+  const attr = data.vaccinated;
+  return {
+    value: attr,
+  };
 }
