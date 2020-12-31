@@ -190,11 +190,18 @@ console.log(number);
 
 let amount =  number.value.toLocaleString();
 console.log(amount);
+      
+const date = await getVaccineUpdateDate();
+console.log(date);
+      
+let statusdate =  date.value.toLocaleString();
+console.log(statusdate);     
+  
 
-header = list.addText("💉 " + "Impfungen de ".toUpperCase());
+header = list.addText("💉 " + "Impfungen".toUpperCase());
 header.font = Font.mediumSystemFont(11);
 
-value = list.addText(amount);
+value = list.addText(amount + statusdate);
 value.font = Font.mediumSystemFont(14);
 
 
