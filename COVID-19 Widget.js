@@ -1,5 +1,12 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
+// icon-color: red; icon-glyph: first-aid;
+// Variables used by Scriptable.
+// These must be at the very top of the file. Do not edit.
+// This script was downloaded using ScriptDude.
+// Do not remove these lines, if you want to benefit from automatic updates.
+// source: https://raw.githubusercontent.com/thomaskeim/scriptable/main/COVID-19%20Widget.js; docs: ; hash: -1047807280;
+
 
 
 // icon-color: red; icon-glyph: first-aid;
@@ -74,23 +81,18 @@ if(!data || !data.features || !data.features.length) {
   return errorList
 }
 
-header = list.addText("🦠 Neuinfektionen ".toUpperCase())
-header.font = Font.mediumSystemFont(10)
+header = list.addText("🦠 COVID-19 DE".toUpperCase())
+header.font = Font.mediumSystemFont(11)
 
 label = list.addText("+" + parseInt(data.features[0].attributes.value).toLocaleString());
 // label = list.addText("+" + new Intl.NumberFormat('de-DE').format(data.features[0].attributes.value));
-label.font = Font.mediumSystemFont(20)
+label.font = Font.mediumSystemFont(18)
 
 // const country = list.addText("Deutschland")
 // country.font = Font.mediumSystemFont(12)
 // country.textColor = Color.gray()
 
-// fetch new vaccines
-const number = await getLatestNumber()
-let amount =  number.split(" (")[0];
-header = list.addText("💉 " + "Impfungen: " + amount);
-header.font = Font.mediumSystemFont(10);
-header.textColor = Color.gray()
+
       
       
 list.addSpacer()
@@ -141,8 +143,8 @@ const areaName = this.stateToAbbr[attr.BL]
 
 
 
-header = list.addText("🦠 Inzidenz".toUpperCase())
-header.font = Font.mediumSystemFont(10)
+header = list.addText("🦠 7TI " + cityName.toUpperCase())
+header.font = Font.mediumSystemFont(11)
 
 const incidenceStack = list.addStack();
       incidenceStack.centerAlignContent();
@@ -150,7 +152,7 @@ const incidenceStack = list.addStack();
 const incicenceCityStack = incidenceStack.addStack();
 value = incicenceCityStack.addText(parseFloat(incidence).toLocaleString());
 //value = incicenceCityStack.addText(new Intl.NumberFormat('de-DE').format(incidence));
-    value.font = Font.mediumSystemFont(24);
+    value.font = Font.mediumSystemFont(18);
     if (incidence >= 50) {
       value.textColor = Color.red();
     } else if (incidence >= 35) {
@@ -168,17 +170,31 @@ const incidenceBlStack = incidenceStack.addStack();
       incidenceBlStack.backgroundColor = new Color("#888888", 0.3);
       incidenceBlStack.cornerRadius = 4;
 
-const value_area = incidenceBlStack.addText(parseFloat(incidencebl).toLocaleString());
-      value_area.font = Font.mediumSystemFont(8);
+const value_area = incidenceBlStack.addText(areaName + ": " +parseFloat(incidencebl).toLocaleString());
+      value_area.font = Font.mediumSystemFont(10);
 
-const label_area = incidenceBlStack.addText(areaName);
-      label_area.font = Font.mediumSystemFont(8);
+// const label_area = incidenceBlStack.addText(areaName);
+//       label_area.font = Font.mediumSystemFont(8);
 
-const label_city = list.addText(cityName);
-      label_city.font = Font.mediumSystemFont(12);
-      label_city.textColor = Color.gray();
+// const label_city = list.addText(cityName);
+//       label_city.font = Font.mediumSystemFont(12);
+//       label_city.textColor = Color.gray();
     
-list.addSpacer()
+list.addSpacer(8)
+
+
+// fetch new vaccines
+const number = await getLatestNumber()
+let amount =  number.split(" (")[0];
+header = list.addText("💉 " + "Impfungen de ".toUpperCase());
+header.font = Font.mediumSystemFont(11);
+
+value = list.addText(amount);
+value.font = Font.mediumSystemFont(14);
+
+
+list.addSpacer(8)
+
 
 lastupdate = list.addText ("letztes Update: "+lastUpdate.substr(0,10))
 lastupdate.font = Font.mediumSystemFont(8)  
