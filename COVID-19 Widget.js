@@ -201,7 +201,7 @@ console.log(statusdate);
 header = list.addText("💉 " + "Impfungen".toUpperCase());
 header.font = Font.mediumSystemFont(11);
 
-value = list.addText(amount + statusdate);
+value = list.addText(amount);
 value.font = Font.mediumSystemFont(14);
 
 
