@@ -1,11 +1,8 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: red; icon-glyph: first-aid;
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// This script was downloaded using ScriptDude.
-// Do not remove these lines, if you want to benefit from automatic updates.
-// source: https://raw.githubusercontent.com/thomaskeim/scriptable/main/COVID-19%20Widget.js; docs: ; hash: -1047807280;
+
+
 
 
 
