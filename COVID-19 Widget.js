@@ -216,3 +216,13 @@ async function getVaccineData() {
     value: attr,
   };
 }
+
+async function getVaccineUpdateDate() {
+  let data = await new Request(lastUpdateDate).loadJSON();
+  const attr = data.lastUpdate;
+  return {
+    value: attr,
+  };
+}
+
+
